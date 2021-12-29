@@ -1,0 +1,7 @@
+version: '3.5'
+services:
+  bot:
+    build: ./
+    image: dymc
+    volumes:
+      - ".:/usr/src/app"

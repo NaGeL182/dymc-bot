@@ -88,15 +88,15 @@ client.on('message', async (msg) => {
 
     const args = msg.content.split(' ');
 
-    if (args[0] == 'd.ping') msg.channel.send('pong!');
+    if (args[0] == 'y.ping') msg.channel.send('pong!');
 
-    if (args[0] == 'd.force-check') {
+    if (args[0] == 'y.force-check') {
         if (msg.mentions.users.size != 0) {
             for (discordId of msg.mentions.users.keys()) {
                 const profile = await getUserProfile(discordId);
 
                 if (!profile) {
-                    msg.channel.send(`使用者 <@${discordId}> 沒有連結或顯示Youtube帳號在個人檔案上。`); // User <@${discordId} didn't connect or show youtube account on proflie.
+                    msg.channel.send(`User <@${discordId}> didn't connect or show youtube account on proflie.`); // User <@${discordId} didn't connect or show youtube account on proflie.
                 } else {
                     db.get(profile.key.youtubeId, (err, value) => {
                         if (err) {
@@ -118,7 +118,7 @@ client.on('message', async (msg) => {
             }
             msg.channel.send('Done!');
         } else {
-            msg.channel.send('使用方法: d.force-check <tag使用者> [more user...]', { code: '' }); // Usage: d.force-check <tagUser> [more user...]
+            msg.channel.send('Usage: d.force-check <tagUser> [more user...]', { code: '' }); // Usage: d.force-check <tagUser> [more user...]
         }
     }
 
@@ -392,8 +392,10 @@ const liveStramProcess = async (videoId, ls)=> {
         defaultViewport: { width: 500, height: 470 },
         args: [
             `--window-size=300,600`,
-            `--no-sandbox`,
-            `--disable-setuid-sandbox`
+            "--disable-gpu",
+            "--disable-dev-shm-usage",
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
         ]
     }
     const browser = await puppeteer.launch(lunchOptions);
@@ -449,16 +451,16 @@ const liveStramProcess = async (videoId, ls)=> {
                             .setColor('#ff0000')
                             .setAuthor(channelName, channelIcon)
                             .setThumbnail(`https://i.ytimg.com/vi/${videoId}/hqdefault_live.jpg`)
-                            .setTitle('直播統計資料') // live stream analysis data
+                            .setTitle('Livestream analysis data') // live stream analysis data
                             .addFields([
-                                { name: '總留言數', value: ca.totalChats, inline: true }, // total comment count
-                                { name: '會員留言數', value: ca.totalChatsByMembers, inline: true },
-                                { name: '會員比例', value: Math.floor((ca.totalChatsByMembers / ca.totalChats) * 100) + '%', inline: true } // member comment ratio
+                                { name: 'Total number of messages', value: ca.totalChats, inline: true }, // total comment count
+                                { name: 'Member Message', value: ca.totalChatsByMembers, inline: true },
+                                { name: 'Member Ratio', value: Math.floor((ca.totalChatsByMembers / ca.totalChats) * 100) + '%', inline: true } // member comment ratio
                             ])
                             .addFields([
-                                { name: '參與總人數', value: ca.memberList.size + ca.notMemberList.size, inline: true },
-                                { name: '參與會員數', value: ca.memberList.size, inline: true },
-                                { name: '會員比例', value: Math.floor((ca.memberList.size / (ca.memberList.size + ca.notMemberList.size)) * 100) + '%', inline: true }
+                                { name: 'Total number of participants', value: ca.memberList.size + ca.notMemberList.size, inline: true },
+                                { name: 'Number of participating members', value: ca.memberList.size, inline: true },
+                                { name: 'Member Ratio', value: Math.floor((ca.memberList.size / (ca.memberList.size + ca.notMemberList.size)) * 100) + '%', inline: true }
                             ])
                             
 
