@@ -33,6 +33,7 @@ const configCheck = (
     config['user_token'] == ['userTokenHere'] ||
     config['channelId'] == 'someIdThatStartWithU' ||
     config['roleId'] == '000000000000000000' ||
+    config['moderatorRoleId'] == '000000000000000000' ||
     config['newMemberBadge'] == 'badgeUrlHere'
 )
 
@@ -84,7 +85,7 @@ client.on('ready',async () => {
 client.on('message', async (msg) => {
 
     if (msg.author.bot) return;
-    if (!msg.member.hasPermission('ADMINISTRATOR')) return;
+    if (!msg.member.roles.cache.has(config['moderatorRoleId'])) return;
 
     const args = msg.content.split(' ');
 
