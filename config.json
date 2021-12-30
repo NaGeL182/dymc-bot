@@ -3,6 +3,7 @@
     "user_token": ["userTokenHere"],
     "channelId": "someIdThatStartWithU",
     "roleId": "000000000000000000",
+    "moderatorRoleId": "000000000000000000",
     "removeRoleUndetectedAfter": 15,
     "updateUserProflie": 6,
     "discordRequestDelay": 10,
