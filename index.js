@@ -586,6 +586,16 @@ const liveStramProcess = async (videoId, ls)=> {
                                             ).bgWhite);
                                         } else {
                                             member.roles.add(config['roleId']);
+                                            if (config['analysisDataOnTextChannelId']) {
+                                                client.channels.fetch(config['analysisDataOnTextChannelId'])
+                                                    .then(channel => {
+                                                        const embed = new MessageEmbed()
+                                                            .setColor('#00ff00')
+                                                            .setTitle('User added to Member Role!')
+                                                            .setDescription(`<@${value.discordId}> (${value.discordId}) was added to <@&${config['roleId']}>!`)
+                                                        channel.send(embed);
+                                                    })
+                                            }
                                             console.log((
                                                 '['.black + '+'.red +'] '.black +
                                                 ('Detect guild member ' + value.username + ` (${value.discordId}) ` + 
