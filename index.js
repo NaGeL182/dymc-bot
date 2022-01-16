@@ -381,6 +381,25 @@ const checkProcess = async (channelId, ls) => {
     );
     // }
 
+    if (config['analysisDataOnTextChannelId']) {
+        client.channels.fetch(config['analysisDataOnTextChannelId'])
+            .then(channel => {
+                const embed = new MessageEmbed()
+                    .setColor('#ff0000')
+                    .setAuthor(channelName, channelIcon)
+                    .setThumbnail(`https://i.ytimg.com/vi/${videoId}/hqdefault_live.jpg`)
+                    .setTitle("New Livestream found!")
+                    .setDescription(title)
+                    .addFields([
+                        { name: 'Status', value: status, inline: true }, // total comment count
+                        { name: 'Id', value: videoId, inline: true },
+                        { name: 'Link to Stream', value: "https://www.youtube.com/watch?v=" + videoId, inline: false } // member comment ratio
+                    ])
+                    
+                channel.send(embed);
+            })
+    }
+
     return videoId;
 }
 
